@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Baking App Seggio</string>
 
-    <!--Strings inside Utils Class-->
+    <!--Strings inside RecipeUtils Class-->
     <string name="get_http">GET</string>
     <string name="error_resp_code">"Error response code: "</string>
     <string name="utf_8">UTF-8</string>

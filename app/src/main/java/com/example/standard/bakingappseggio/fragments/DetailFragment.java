@@ -21,9 +21,15 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        Log.d("Test", "MasterListFragment");
+        //Log.d("Test", "MasterListFragment");
+        Log.d("Test", "DetailFragment: onCreateView");
 
-        final View rootView = inflater.inflate(R.layout.ingredients_fragment, container, false);
+        /*
+        * Hier wird die Sache mit dem ExoPlayer und die Darstellung des Zubereitungs-
+        * schritts gehandled
+        * */
+
+        final View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
 
         return rootView;
     }

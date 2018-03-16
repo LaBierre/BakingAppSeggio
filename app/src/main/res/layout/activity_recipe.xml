@@ -6,15 +6,15 @@
     android:orientation="vertical"
     tools:context="com.example.standard.bakingappseggio.activities.RecipeActivity">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/ingredients_fragment"
-        android:name="com.example.standard.bakingappseggio.fragments.IngredientsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!--Dort werden die Klassen IngredientsFragment und StepsFragment aufgerufen.
+        So sollte es zumindest sein. Leider wird nur ein fragment aufgerufen.
+
+
+    -->
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/steps_fragment"
-        android:name="com.example.standard.bakingappseggio.fragments.StepsFragment"
+        android:id="@+id/container"
+        android:name="com.example.standard.bakingappseggio.fragments.RecipeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

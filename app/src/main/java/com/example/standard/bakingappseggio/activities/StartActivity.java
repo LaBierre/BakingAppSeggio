@@ -18,26 +18,40 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.standard.bakingappseggio.R;
+import com.example.standard.bakingappseggio.adapters.RecipeAdapter;
 import com.example.standard.bakingappseggio.data.Recipe;
-import com.example.standard.bakingappseggio.data.RecipeAdapter;
-import com.example.standard.bakingappseggio.data.RecipeLoader;
+import com.example.standard.bakingappseggio.fragments.RecipeFragment;
+import com.example.standard.bakingappseggio.loaders.RecipeLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StartActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeAdapter.RecipeAdapterOnClickHandler {
+        LoaderManager.LoaderCallbacks<List<Recipe>>,
+        RecipeAdapter.RecipeAdapterOnClickHandler{
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private RecipeAdapter mAdapter;
     private String mUrl;
     private List<Recipe> recipeItems;
     private boolean mDetailedLayout, mIsTablet, mIsLandscape;
+    private int recipeId;
+
+    public DataFromActivityToFragment dataFromActivityToFragment;
+
+    private static final String LOG_TAG = StartActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        Log.d("Test", "StartActivity: onCreate");
+
+        RecipeFragment fragment = new RecipeFragment();
+
+        dataFromActivityToFragment =  fragment;
+
         /*
         * mDetailedLayout = false means that the home button in RecipeActivity is not clicked
         * mDetailedLayout = true means that the home button in RecipeActivity is clicked
@@ -53,7 +67,7 @@ public class StartActivity extends AppCompatActivity implements
 
         mUrl = getString(R.string.url);
 
-        progressBar = (ProgressBar) findViewById(R.id.load_indicator);
+        progressBar = (ProgressBar) findViewById(R.id.load_indicator_start);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         //recyclerView.setHasFixedSize(true);
@@ -63,14 +77,14 @@ public class StartActivity extends AppCompatActivity implements
         // Check if the device is a tablet or a phone
         if (findViewById(R.id.tablet_layout)!=null ||
                 (findViewById(R.id.tablet_layout)==null && mIsLandscape)){
-            Log.d("Test", "Device is a Tablet!");
+            Log.d("Test", "StartActivity: Device is a Tablet!");
             mIsTablet = true;
             int numberOfColumns = getResources().getInteger(R.integer.gallery_columns);
 
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, numberOfColumns);
             recyclerView.setLayoutManager(gridLayoutManager);
         } else {
-            Log.d("Test", "Device is a Phone!");
+            Log.d("Test", "StartActivity: Device is a Phone!");
             mIsTablet = false;
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -114,14 +128,15 @@ public class StartActivity extends AppCompatActivity implements
 
     @Override
     public Loader<List<Recipe>> onCreateLoader(int id, Bundle args) {
-        Log.d("Test2", "Start onCreateLoader");
+        Log.d("Test", "StartActivity: onCreateLoader");
         mDetailedLayout = false;
         return new RecipeLoader(getApplicationContext(), mUrl);
+        // hier wird der entsprechebnnde Loader aufgerufen
     }
 
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> recipes) {
-        Log.d("Test2", "Start onLoadFinished");
+        Log.d("Test", "StartActivity: onLoadFinished");
         progressBar.setVisibility(View.GONE);
 
         /*
@@ -143,14 +158,24 @@ public class StartActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<List<Recipe>> loader) {
-        Log.d("Test2", "Start onLoaderReset");
+        Log.d("Test", "StartActivity: onLoaderReset");
         mAdapter.clear();
     }
 
     @Override
     public void onClick(Recipe data) {
+        Log.d("Test", "StartActivity: onClick");
+
+        recipeId = data.getmId();
+
+        dataFromActivityToFragment.sentData(recipeId);
+
         Intent intent = new Intent(this, RecipeActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
+    }
+
+    public interface DataFromActivityToFragment {
+        void sentData(int id);
     }
 }

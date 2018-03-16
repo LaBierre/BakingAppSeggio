@@ -1,4 +1,4 @@
-package com.example.standard.bakingappseggio.data;
+package com.example.standard.bakingappseggio.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.standard.bakingappseggio.R;
+import com.example.standard.bakingappseggio.data.Recipe;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         this.mClickHandler = mClickHandler;
         this.context = context;
         this.recipeItems = recipeItems;
+
+        Log.d("Test", "RecipeAdapter: Constructor");
     }
 
     public void clear(){
@@ -37,7 +40,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     }
 
     public void add(List<Recipe> recipeItems) {
-        Log.d("Test", "RecipeAdapter add");
+        Log.d("Test", "RecipeAdapter: add");
         this.recipeItems.addAll(recipeItems);
         //this.notifyItemRangeInserted(0, recipeItems.size() - 1);
     }
@@ -53,7 +56,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Recipe recipeItem = recipeItems.get(position);
-        Log.d("Test", "Position " + position);
+        //Log.d("Test", "RecipeAdapter: Position " + position);
+        Log.d("Test", "RecipeAdapter: onBindViewHolder");
 
         String name = recipeItem.getmName();
 
@@ -78,6 +82,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         public ViewHolder(View itemView) {
             super(itemView);
+            Log.d("Test", "RecipeAdapter: ViewHolder");
             recipeName = (TextView) itemView.findViewById(R.id.recipe_name);
             itemView.setOnClickListener(this);
         }
@@ -86,15 +91,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
 
-            String name = recipeItems.get(adapterPosition).getmName();
-            String ingredient = recipeItems.get(adapterPosition).getmIngredient();
-            String quantity = recipeItems.get(adapterPosition).getmQuantity();
-            String measure = recipeItems.get(adapterPosition).getmMeasure();
-            String shortDescription = recipeItems.get(adapterPosition).getmShortDescription();
-            String description = recipeItems.get(adapterPosition).getmDescription();
-            String videoURL = recipeItems.get(adapterPosition).getmVideoURL();
+            Log.d("Test", "RecipeAdapter: onClick");
 
-            Recipe data = new Recipe(name, ingredient, quantity, measure, shortDescription, description, videoURL);
+            String name = recipeItems.get(adapterPosition).getmName();
+            int recipeId = recipeItems.get(adapterPosition).getmId();
+
+            Recipe data = new Recipe(name, recipeId);
 
             mClickHandler.onClick(data);
         }

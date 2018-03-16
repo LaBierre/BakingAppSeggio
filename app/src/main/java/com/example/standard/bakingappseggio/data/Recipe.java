@@ -2,6 +2,7 @@ package com.example.standard.bakingappseggio.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Created by vince on 26.12.2017.
@@ -11,58 +12,34 @@ public class Recipe implements Parcelable {
 
     // Recipe Name
     private String mName;
-    // Ingredients
-    private String mIngredient, mQuantity, mMeasure;
-    // Preparation Steps
-    private String mShortDescription, mDescription, mVideoURL;
+    private int mId;
 
-    public Recipe(String mName, String mIngredient, String mQuantity, String mMeasure,
-                  String mShortDescription, String mDescription, String mVideoURL) {
+    // Todo: Id einfügen, done
+
+    public Recipe(){};
+
+    public void setmId(int mId) {
+        this.mId = mId;
+    }
+
+    public Recipe(String mName, int mId) {
         this.mName = mName;
-        this.mIngredient = mIngredient;
-        this.mQuantity = mQuantity;
-        this.mMeasure = mMeasure;
-        this.mShortDescription = mShortDescription;
-        this.mDescription = mDescription;
-        this.mVideoURL = mVideoURL;
+        this.mId = mId;
+
+        Log.d("Test", "Recipe: Constructor");
     }
 
     public Recipe (Parcel parcel){
         this.mName = parcel.readString();
-        this.mIngredient = parcel.readString();
-        this.mQuantity = parcel.readString();
-        this.mMeasure = parcel.readString();
-        this.mShortDescription = parcel.readString();
-        this.mDescription = parcel.readString();
-        this.mVideoURL = parcel.readString();
+        this.mId = parcel.readInt();
     }
 
     public String getmName() {
         return mName;
     }
 
-    public String getmIngredient() {
-        return mIngredient;
-    }
-
-    public String getmQuantity() {
-        return mQuantity;
-    }
-
-    public String getmMeasure() {
-        return mMeasure;
-    }
-
-    public String getmShortDescription() {
-        return mShortDescription;
-    }
-
-    public String getmDescription() {
-        return mDescription;
-    }
-
-    public String getmVideoURL() {
-        return mVideoURL;
+    public int getmId() {
+        return mId;
     }
 
     @Override
@@ -73,12 +50,7 @@ public class Recipe implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mName);
-        parcel.writeString(mIngredient);
-        parcel.writeString(mQuantity);
-        parcel.writeString(mMeasure);
-        parcel.writeString(mShortDescription);
-        parcel.writeString(mDescription);
-        parcel.writeString(mVideoURL);
+        parcel.writeInt(mId);
     }
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Creator<Recipe>() {
