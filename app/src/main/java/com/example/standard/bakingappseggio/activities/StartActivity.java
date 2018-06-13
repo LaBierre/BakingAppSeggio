@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.example.standard.bakingappseggio.R;
 import com.example.standard.bakingappseggio.adapters.RecipeAdapter;
 import com.example.standard.bakingappseggio.data.Recipe;
-import com.example.standard.bakingappseggio.fragments.RecipeFragment;
 import com.example.standard.bakingappseggio.loaders.RecipeLoader;
 
 import java.util.ArrayList;
@@ -37,8 +36,6 @@ public class StartActivity extends AppCompatActivity implements
     private boolean mDetailedLayout, mIsTablet, mIsLandscape;
     private int recipeId;
 
-    public DataFromActivityToFragment dataFromActivityToFragment;
-
     private static final String LOG_TAG = StartActivity.class.getName();
 
     @Override
@@ -47,10 +44,6 @@ public class StartActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_start);
 
         Log.d("Test", "StartActivity: onCreate");
-
-        RecipeFragment fragment = new RecipeFragment();
-
-        dataFromActivityToFragment =  fragment;
 
         /*
         * mDetailedLayout = false means that the home button in RecipeActivity is not clicked
@@ -166,16 +159,8 @@ public class StartActivity extends AppCompatActivity implements
     public void onClick(Recipe data) {
         Log.d("Test", "StartActivity: onClick");
 
-        recipeId = data.getmId();
-
-        dataFromActivityToFragment.sentData(recipeId);
-
         Intent intent = new Intent(this, RecipeActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
-    }
-
-    public interface DataFromActivityToFragment {
-        void sentData(int id);
     }
 }

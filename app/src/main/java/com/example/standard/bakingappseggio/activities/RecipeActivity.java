@@ -1,11 +1,8 @@
 package com.example.standard.bakingappseggio.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.standard.bakingappseggio.OnRecipeClickListener;
 import com.example.standard.bakingappseggio.R;
@@ -31,25 +28,24 @@ public class RecipeActivity extends AppCompatActivity implements OnRecipeClickLi
         super.onCreate(savedInstanceState);
         //Receive data from Start Activity
 
-
-        Intent intent = getIntent();
-        Parcelable extras = intent.getParcelableExtra("data");
-
-        if (extras != null){
-            recipeData = getIntent().getParcelableExtra("data");
-        } else {
-            Toast.makeText(this, "No data transfered", Toast.LENGTH_SHORT).show();
-        }
-        recipeName = recipeData.getmName();
-        recipeId = recipeData.getmId();
+//        Intent intent = getIntent();
+//        Parcelable extras = intent.getParcelableExtra("data");
+//
+//        if (extras != null){
+//            recipeData = getIntent().getParcelableExtra("data");
+//        } else {
+//            Toast.makeText(this, "No data transfered", Toast.LENGTH_SHORT).show();
+//        }
+//        recipeName = recipeData.getmName();
+//        recipeId = recipeData.getmId();
+        // send the recipeId to RecipeFragment
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("id", recipeId);
 
         setContentView(R.layout.activity_recipe);
 
-        // send the recipeId to RecipeFragment
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("recipeFragment", recipeId);
 //        RecipeFragment fragment = new RecipeFragment();
-//        fragment.setArguments(bundle);
+//        fragment.setArguments(getIntent().getExtras());
 //        getSupportFragmentManager().beginTransaction()
 //                .replace(R.id.container, fragment)
 //                .commit();

@@ -1,7 +1,9 @@
 package com.example.standard.bakingappseggio.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -17,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.standard.bakingappseggio.OnRecipeClickListener;
 import com.example.standard.bakingappseggio.R;
-import com.example.standard.bakingappseggio.activities.StartActivity;
+import com.example.standard.bakingappseggio.activities.DetailActivity;
 import com.example.standard.bakingappseggio.adapters.IngredientsAdapter;
 import com.example.standard.bakingappseggio.adapters.StepsAdapter;
 import com.example.standard.bakingappseggio.data.Ingredient;
@@ -34,8 +36,7 @@ import java.util.List;
  */
 
 public class RecipeFragment extends Fragment implements
-        StepsAdapter.StepsAdapterOnClickHandler,
-        StartActivity.DataFromActivityToFragment {
+        StepsAdapter.StepsAdapterOnClickHandler {
     // Todo: implement 2 LoaderCallbacks
     // One Callback is for ingredients and the other for the steps
 
@@ -43,7 +44,7 @@ public class RecipeFragment extends Fragment implements
 
     private String mUrl;
 
-    private Recipe id;
+    private Recipe recipe;
 
     // Todo: need 2 Adapters and two recyclerviews, done
 
@@ -144,15 +145,30 @@ public class RecipeFragment extends Fragment implements
     public RecipeFragment (){
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        recipe = new Recipe();
+
+        Bundle bundle = getActivity().getIntent().getExtras();
+        recipe = bundle.getParcelable("data");
+        recipeId = recipe.getmId();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.recipe_fragment,container,false);
 
-        String text = getArguments().getString("test");
+        //Bundle bundle = getActivity().getIntent().getExtras().getParcelable("data");
+        //recipeId = bundle.getI;
 
-        Log.d(LOG_TAG, "onCreateView Test = " + text);
+
+        //String text = getArguments().getString("test");
+
+        //Log.d(LOG_TAG, "onCreateView Test = " + text);
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.load_indicator_recipe);
 
@@ -180,8 +196,6 @@ public class RecipeFragment extends Fragment implements
 
         mIngredientsAdapter = new IngredientsAdapter(getContext(), mIngredientItems);
 
-        mStepsAdapter = new StepsAdapter(getContext(), this, mStepItems);
-
         mRvIngredients.setAdapter(mIngredientsAdapter);
 
          loaderIngredient = getLoaderManager();
@@ -205,18 +219,14 @@ public class RecipeFragment extends Fragment implements
     }
 
     @Override
-    public void sentData(int id) {
-
-        Log.d(LOG_TAG, "sentData");
-        recipeId = id;
-        Log.d(LOG_TAG, "sentData id = "+ recipeId);
-
-    }
-
-    @Override
     public void onClick(Step data) {
         Toast.makeText(getContext(), "Angeklickt", Toast.LENGTH_LONG).show();
         // Todo: Call DetailActivity
+
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra("stepData", data);
+        intent.putParcelableArrayListExtra("stepItems", (ArrayList<? extends Parcelable>) mStepItems);
+        startActivity(intent);
     }
 
 
